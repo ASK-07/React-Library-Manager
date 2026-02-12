@@ -35,10 +35,7 @@ async function start() {
     }
 async function insertStartBooks() {
     try {
-        // Delete existing books collection to avoid duplicates
         await books.deleteMany({});
-        
-        // Insert each book from StartBooks array
         await books.insertMany(StartBooks);
         console.log("StartBooks inserted successfully");
     } catch (error) {
@@ -46,25 +43,26 @@ async function insertStartBooks() {
     }
 }
 var StartBooks = [
-    { id: "1", title: "Reactions in REACT", author:"Ben Dover", publisher: "Random House", isbn: "978-3-16-148410-0", avail: true },
-    { id: "2", title: "Express-sions", author:"Frieda Livery", publisher: "Chaotic House", isbn: "978-3-16-148410-2", avail: true },
-    { id: "3", title: "RESTful Rest", author:"Al Gorithm", publisher: "ACM Publishers", isbn: "978-3-16-143310-1", avail: true },
-    { id: "4", title: "See Es Es", author:"Anna Log", publisher: "O'Reilly", isbn: "987-6-54-148220-1", avail: false, who: "Homer", due:"1/1/23" },
-    { id: "5", title: "Scripting in Javascript", author:"Dee Gital", publisher: "IEEE", isbn: "987-6-54-321123-1", avail: false, who: "Marge", due: "1/2/23" },
-    { id: "6", title: "HTML Heros", author:"Jen Neric", publisher: "self", isbn: "987-6-54-321123-2", avail: false, who: "Lisa", due: "1/3/23" },
-    { id: "7", title: "Python Primer", author: "Monty Python", publisher: "Pythons Publishing", isbn: "978-3-16-111111-1", avail: true },
-    { id: "8", title: "Java Journey", author: "Duke Java", publisher: "Java House", isbn: "978-3-16-222222-2", avail: true },
-    { id: "9", title: "C++ Chronicles", author: "Cee Plus", publisher: "C++ Press", isbn: "978-3-16-333333-3", avail: true },
-    { id: "10", title: "Ruby Roadmap", author: "Ruby Red", publisher: "Ruby Books", isbn: "978-3-16-444444-4", avail: true },
-    { id: "11", title: "PHP Parable", author: "PHP Phan", publisher: "PHP Press", isbn: "978-3-16-555555-5", avail: true }
+  { id: "1", title: "To Kill a Mockingbird", author: "Harper Lee", publisher: "J.B. Lippincott & Co.", isbn: "978-0-06-112008-4", avail: true },
+  { id: "2", title: "Pride and Prejudice", author: "Jane Austen", publisher: "T. Egerton", isbn: "978-0-19-953556-9", avail: true },
+  { id: "3", title: "The Great Gatsby", author: "F. Scott Fitzgerald", publisher: "Charles Scribner's Sons", isbn: "978-0-7432-7356-5", avail: true },
+  { id: "4", title: "1984", author: "George Orwell", publisher: "Secker & Warburg", isbn: "978-0-452-28423-4", avail: false, who: "Michael Carter", due: "3/15/26" },
+  { id: "5", title: "The Book Thief", author: "Markus Zusak", publisher: "Picador", isbn: "978-0-375-84220-7", avail: false, who: "Sarah Nguyen", due: "3/18/26" },
+  { id: "6", title: "The Road", author: "Cormac McCarthy", publisher: "Alfred A. Knopf", isbn: "978-0-307-38789-9", avail: false, who: "Daniel Brooks", due: "3/20/26" },
+  { id: "7", title: "The Kite Runner", author: "Khaled Hosseini", publisher: "Riverhead Books", isbn: "978-1-59448-000-3", avail: true },
+  { id: "8", title: "Life of Pi", author: "Yann Martel", publisher: "Knopf Canada", isbn: "978-0-15-602732-8", avail: true },
+  { id: "9", title: "The Night Circus", author: "Erin Morgenstern", publisher: "Doubleday", isbn: "978-0-385-53463-5", avail: true },
+  { id: "10", title: "The Alchemist", author: "Paulo Coelho", publisher: "HarperOne", isbn: "978-0-06-231500-7", avail: true },
+  { id: "11", title: "A Man Called Ove", author: "Fredrik Backman", publisher: "Atria Books", isbn: "978-1-4767-3612-5", avail: true }
 ];
 
 
 
-app.get('/books', (req, res) => {
-    const availParam = req.query.avail; // Get the avail query parameter
 
-    // If avail=true is provided, filter available books, else return all books
+app.get('/books', (req, res) => {
+    const availParam = req.query.avail;
+
+    
     const filter = availParam === 'true' ? { avail: true } : availParam === 'false' ? { avail: false } : {};
 
     books.find(filter)
@@ -92,7 +90,7 @@ app.get('/books/:id', (req,res) => {
 
     app.put('/books/:id', (req,res) => { 
         const bookId = req.params.id;
-        const updateData = req.body; // Assuming update data is sent in the request body
+        const updateData = req.body;
         books.updateOne({ id: bookId }, { $set: updateData })
             .then(result => {
                 if (result.modifiedCount === 0) {
@@ -120,7 +118,7 @@ app.get('/books/:id', (req,res) => {
             });
     });
     app.post('/books', (req,res) => { 
-        const newBook = req.body; // Assuming new book data is sent in the request body
+        const newBook = req.body;
         if (!newBook.title) {
             res.status(403).send("Book must have a name");
             return;

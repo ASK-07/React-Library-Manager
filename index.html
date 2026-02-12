@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Capstone Project</title>
+    <title>Library Database</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -27,14 +27,11 @@
         
         function listAvailable() {
             const listAvailableLink = document.getElementById("list-available-link");
-          
             listAvailableLink.addEventListener("click", async (event) => {
                 event.preventDefault();
-          
                 try {
                     const thisurl = 'http://localhost:3000/books?avail=true';
                     const rt = ResponseSync("GET",thisurl);
-          
                     let books = JSON.parse(rt.text);
                     bookslister(books);
                 } catch (error) {
@@ -45,14 +42,11 @@
         
         function listCheckedout() {
             const listCheckedOutLink = document.getElementById("list-checked-out-link");
-          
             listCheckedOutLink.addEventListener("click", async (event) => {
                 event.preventDefault();
-          
                 try {
                     const thisurl = 'http://localhost:3000/books?avail=false';
                     const rt = ResponseSync("GET",thisurl);
-          
                     let books = JSON.parse(rt.text);
                     bookslister(books);
                 } catch (error) {
@@ -75,6 +69,7 @@
             const paragraphContainer = document.querySelector(".paragraph-container");
             paragraphContainer.innerHTML = content;
         }
+
         function checkoutBook() {
             const checkOutLink = document.getElementById("check-out-link");
             checkOutLink.addEventListener("click", async (event) => {
@@ -86,7 +81,6 @@
                         const rt = ResponseSync("PUT", thisurl, JSON.stringify({ avail: false }));
                         if (rt.status === 200) {
                             alert("Book checked out successfully!");
-                            // Refresh the list of books
                             listAvailable();
                         } else {
                             alert("Failed to check out the book. Please try again.");
@@ -97,6 +91,7 @@
                 }
             });
         }
+
         function checkinBook() {
             const checkInLink = document.getElementById("check-in-link");
             checkInLink.addEventListener("click", async (event) => {
@@ -108,7 +103,6 @@
                         const rt = ResponseSync("PUT", thisurl, JSON.stringify({ avail: true }));
                         if (rt.status === 200) {
                             alert("Book checked in successfully!");
-                            // Refresh the list of books
                             listCheckedout();
                         } else {
                             alert("Failed to check in the book. Please try again.");
@@ -124,12 +118,11 @@
             return (
                 <>
                     <header>
-                        <h1>Capstone Project</h1>
-                        <h2>Alex Kaylor (GLB116@TXSTATE.EDU)</h2>
+                        <h1>Library Database</h1>
+                        <h2>Alex Kaylor (askaylor7@gmail.com)</h2>
                     </header>
     
                     <nav>
-                        <span>Nav Bar</span>
                         <ul>
                             <li><a href="#" onClick={listAvailable} id="list-available-link">List Available</a></li>
                             <li><a href="#" onClick={listCheckedout} id="list-checked-out-link">List Checked Out</a></li>
@@ -140,23 +133,28 @@
     
                     <div className="content-wrapper">
                         <div className="paragraph-container">
-                            {/* No books displayed initially */}
                         </div>
                         <div className="sidebar">
-                            <h3>Books Recommendations (intellectual)</h3>
+                            <h3>Book Recommendations</h3>
                             <ul>
-                                <li><a href="https://www.amazon.com/Ultimate-Breakfast-Cookbook-Pancakes-Casseroles-ebook/dp/B07FR4KLDD/ref=sr_1_1?crid=2BW0IJL3O5KN8&dib=eyJ2IjoiMSJ9.SfFPfWVvL8TsXXSXjHDNaw.-GWGXyFFmZraeNRGttQ-65O3sgnlQpehn90y7oFxJ08&dib_tag=se&keywords=Eggs%3A+The+Ultimate+Breakfast+Weapon&qid=1714435403&s=digital-text&sprefix=eggs+the+ultimate+breakfast+weapon%2Cdigital-text%2C104&sr=1-1">Eggs: The Ultimate Breakfast Weapon</a></li>
-                                <li><a href="https://www.amazon.com/Big-Bad-Breakfast-Most-Important/dp/1607747367">Crack the Day: Why Breakfast Shouldn't Start Without Eggs</a></li>
+                                <li><a href="https://www.amazon.com/dp/B0C1J9Q7Y8">James by Victoria Redel</a></li>
+                                <li><a href="https://www.amazon.com/dp/B08BCG4Z7D">The Women by T.C. Boyle</a></li>
+                                <li><a href="https://www.amazon.com/dp/B09V7QPQ1P">The Beast in the Clouds by Selina O'Grady</a></li>
+                                <li><a href="https://www.amazon.com/dp/0307949486">The Goldfinch by Donna Tartt</a></li>
+                                <li><a href="https://www.amazon.com/dp/0143039954">Middlesex by Jeffrey Eugenides</a></li>
+                                <li><a href="https://www.amazon.com/dp/0385534245">The Night Circus by Erin Morgenstern</a></li>
+                                <li><a href="https://www.amazon.com/dp/0307278441">A Visit from the Goon Squad by Jennifer Egan</a></li>
+                                <li><a href="https://www.amazon.com/dp/0812993543">White Teeth by Zadie Smith</a></li>
+                                <li><a href="https://www.amazon.com/dp/0375714837">The Brief Wondrous Life of Oscar Wao by Junot Díaz</a></li>
+                                <li><a href="https://www.amazon.com/dp/0143039434">Everything Is Illuminated by Jonathan Safran Foer</a></li>
                             </ul>
                         </div>
                     </div>
     
-                    <footer>
-                        <h2>Capstone Project of Alex Kaylor worked on with no collaborators</h2>
-                    </footer>
                 </>
             );
         }
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
-    
+</body>
+</html>
